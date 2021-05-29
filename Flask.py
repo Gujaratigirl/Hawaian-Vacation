@@ -36,6 +36,7 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def home():
     return (
         f"Welcome to the 'Pick Your Vacation Date' page!<br/><br/>"
+        f"Going to Hawaii!  Wonderful!  Let's take a look at some rain and temperature!<br/><br/>"
         f"Available Routes:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
@@ -44,12 +45,16 @@ def home():
         f"To get all results from a start date <br/>"
         f"Insert a date into *start with format *YYYY-MM-DD* <br/>"
         f"Range of dates 2010-01-01 through 2017-08-23 <br/>"
-        f"/api/v1.0/start<br/><br/>"
+        f"/api/v1.0/start<br/>"
+        f"Example: <br>"
+        f"/api/v1.0/2010-01-01<br/><br/>"
         
         f"To get all results for a range of dates <br/>"
         f"Insert a date into *start and *end with format *YYYY-MM-DD* <br/>"
         f"Range of dates 2010-01-01 through 2017-08-23 <br/>"
         f"/api/v1.0/start/end<br/>"
+        f"Example: <br>"
+        f"/api/v1.0/2010-01-01/2017-08-23<br/>"
         
     )
 
@@ -130,7 +135,7 @@ def tobs():
     return jsonify(all_tobs)
 
 
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/working/<start>")
 def start_date(start):
     # Create our session (link) from Python to the DB
     session = Session(engine)
@@ -172,7 +177,7 @@ def start_date(start):
 
 
 
-@app.route("/api/v1.0/working/<start>")
+@app.route("/api/v1.0/test/<start>")
 def working_start_date(start):
     # Create our session (link) from Python to the DB
     session = Session(engine)
@@ -218,7 +223,7 @@ def working_start_date(start):
 
     return jsonify({"error": f"Date Range not found.  Please try again with format *YYYY-MM-DD* and range of dates 2010-01-01 through 2017-08-23 "}), 404    
 
-@app.route("/api/v1.0/working2/<start>")
+@app.route("/api/v1.0/<start>")
 def working2_start_date(start):
     # Create our session (link) from Python to the DB
     session = Session(engine)
@@ -263,6 +268,55 @@ def working2_start_date(start):
 
 
     return jsonify({"error": f"Date Range not found.  Please try again with format *YYYY-MM-DD* and range of dates 2010-01-01 through 2017-08-23 "}), 404    
+
+@app.route("/api/v1.0/<start>/<end>")
+def start_end_date(start,end):
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+### IF end term is earlier than start term
+
+    start_term = start.replace(" ", "").lower() #this is a value
+    end_term = end.replace(" ", "").lower() #this is a value
+    #date_present = session.query(Measure.date, Measure.date == search_term).all() #this is a list or dict??
+
+    #return(search_term)
+    #return jsonify(date_present)
+
+    # for data in date_present:
+    #     if data == 'true':
+    #         #date_found = 'Yes' 
+    #         return(data)
+    #         #return(date_found)
+
+
+    # Query all tobs
+    #if search_term == date_present:
+    #results = session.query(Measure.station, Measure.date, Measure.prcp, Measure.tobs).filter(Measure.date >= search_term).all()
+    tmin = session.query(Measure.station, Measure.date, func.min(Measure.tobs)).filter(Measure.date <= end_term).filter(Measure.date >= start_term).all()
+    tavg = session.query(Measure.station, Measure.date, func.avg(Measure.tobs)).filter(Measure.date <= end_term).filter(Measure.date >= start_term).all()
+    tmax = session.query(Measure.station, Measure.date, func.max(Measure.tobs)).filter(Measure.date <= end_term).filter(Measure.date >= start_term).all()
+
+    session.close()
+ ##IS this a list or dict??
+        # Create a dictionary from the row data and append to a list of all_agg
+    all_agg= [tmin, tavg, tmax]
+
+#I want to label the min/avg/max  in the list/dict???
+    
+    # for station, date, prcp, tobs in results:
+    #     tobs_dict = {}
+    #     tobs_dict["station"] = station
+    #     tobs_dict["date"] = date
+    #     tobs_dict["prcp"] = prcp
+    #     tobs_dict["tobs"] = date
+    
+    #     all_tobs.append(tobs_dict)
+
+    return jsonify(all_agg)
+
+
+    return jsonify({"error": f"Date Range not found.  Please try again with format *YYYY-MM-DD*, *start_date/end_date*  and range of dates 2010-01-01 through 2017-08-23 "}), 404    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
