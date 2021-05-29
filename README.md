@@ -1,6 +1,6 @@
 # SqlAlchemy-Challenge
 
-##Planning a trip to Hawaii!   
+## Planning a trip to Hawaii!   
 
 Great you have come to the right place- Pick Your Vacation Date!  
 We are here to help with all of you Temperature and Rain data needs.  
@@ -18,7 +18,7 @@ Assignment asked for the last years data.
 
 
 Please use the website to narrow down your Hawaii Vacation Day search at...       
-http://127.0.0.1:5000/.   
+http://127.0.0.1:5000/    
 
 I would say from the data available - GO on a vacation to Hawaii in July or August to get the high temps and lower chances of rain to spoil your vacation!      
 
