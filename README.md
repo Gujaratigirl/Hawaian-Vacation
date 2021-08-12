@@ -16,13 +16,19 @@ Assignment asked for the last years data.
 #5 - Bar Plot for Temperature shows 80+ degrees in fairly consistently in July and August.     
 #6 - Histogram shows temperatures are bell curved in the range of 65 to 80 degrees.  These are great temperatures for a vacation!   
 
-
-Please use the website to narrow down your Hawaii Vacation Day search at...       
-http://127.0.0.1:5000/    
+   
 
 I would say from the data available - GO on a vacation to Hawaii in July or August to get the high temps and lower chances of rain to spoil your vacation!      
 
 Enjoy!   
+
+Some screenshots of graphs--
+
+<img width="828" alt="Screen Shot 2021-08-12 at 4 36 47 PM" src="https://user-images.githubusercontent.com/80181938/129266336-917af31c-6ad6-4b2a-b7bc-e9a24600bc02.png">
+
+
+<img width="842" alt="Screen Shot 2021-08-12 at 4 37 04 PM" src="https://user-images.githubusercontent.com/80181938/129266347-0518648b-3861-4bda-9efc-810c1eb7df43.png">
+
 
 
 Please use files.....     
